@@ -1,5 +1,6 @@
 const express=require('express')
 const articleRouter=require('./routes/articles')
+const Article=require('./models/article') 
 const mongoose=require('mongoose')
 
 
@@ -10,22 +11,10 @@ mongoose.connect('mongodb://localhost',{
 })
 app.use(express.urlencoded({extended:false}))
 app.set('view engine', 'ejs')
-app.get('/',(req,res)=>{
-    const articles=[{
-        title:"Sakaja Wins...",
-        createdAt:new Date(),
-        link:"link",
-        Descripttion:"Sakaja wins elections",
-        markdown:"Sakaja wins elections"
-    },
-    {
-        title:"Sakaja Wins... 2",
-        createdAt:new Date(),
-        link:"link",
-        Descripttion:"Sakaja wins elections2",
-        markdown:"Sakaja wins elections2"
-    }
-]
+app.get('/',async(req,res)=>{
+    const articles=await Article.find().sort({
+        createdAt:'desc'
+    })
     res.render('articles/index',{articles:articles})
 })
 app.use('/articles',articleRouter)
