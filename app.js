@@ -1,7 +1,7 @@
 const express=require('express')
 const methodOverride=require('method-override')
-const articleRouter=require('./routes/articles')
-const Article=require('./models/article') 
+const articleRouter=require('./Server/routes/articles')
+const Article=require('./Server/models/article') 
 const mongoose=require('mongoose')
 
 
