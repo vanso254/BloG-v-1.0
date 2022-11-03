@@ -2,7 +2,7 @@ const express=require('express')
 const bcrypt=require('bcrypt')
 const user=require('../models/user')
 const User=require('../models/user')
-const { Router } = require('express')
+const { Router, response } = require('express')
 const article = require('../models/article')
 const router=express.Router()
 
@@ -42,6 +42,22 @@ function saveUserAndRedirect(){
            console.log(e)
         }
     }
+}
+router.post('/login',(req,res)=>{
+
+})
+function checkAuthenticated(req,res,next){
+    if (req.isAuthenticated()){
+        return next()
+    }
+    res.redirect('/users/login')
+}
+
+function checkNotAuthenticated(req,res,next){
+    if (req.isAuthenticated()){
+        return response.redirect('/')
+    }
+    return next()
 }
 
 module.exports=router
