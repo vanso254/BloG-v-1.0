@@ -46,13 +46,14 @@ function saveUserAndRedirect(){
 router.post('/login',(req,res)=>{
 
 })
+//protecting our routes for when we are not logged in. We will use a middleware
 function checkAuthenticated(req,res,next){
     if (req.isAuthenticated()){
         return next()
     }
     res.redirect('/users/login')
 }
-
+// preventing the user from going back to the login page after logging in.
 function checkNotAuthenticated(req,res,next){
     if (req.isAuthenticated()){
         return response.redirect('/')
