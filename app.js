@@ -2,6 +2,8 @@ const express=require('express')
 const methodOverride=require('method-override')
 const articleRouter=require('./Server/routes/articles')
 const Article=require('./Server/models/article') 
+const User=require('./Server/models/user')
+const userRouter=require('./Server/routes/users')
 const mongoose=require('mongoose')
 
 
@@ -20,4 +22,6 @@ app.get('/',async(req,res)=>{
     res.render('articles/index',{articles:articles})
 })
 app.use('/articles',articleRouter)
+app.use('/users',userRouter)
+
 app.listen(4040)
