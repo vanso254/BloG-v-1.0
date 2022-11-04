@@ -7,6 +7,7 @@ const articleRouter=require('./Server/routes/articles')
 const Article=require('./Server/models/article') 
 const User=require('./Server/models/user')
 const userRouter=require('./Server/routes/users')
+const dashboardRouter=require('./Server/routes/dashboard')
 const initializePassport = require('./Server/services/passport-config')
 const mongoose=require('mongoose')
 
@@ -37,13 +38,20 @@ app.use(passport.session())
 app.use(express.urlencoded({extended:false}))
 app.use(methodOverride('_method'))
 app.set('view engine', 'ejs')
+
 app.get('/',async(req,res)=>{
     const articles=await Article.find().sort({
         createdAt:'desc'
     })
     res.render('articles/index',{articles:articles})
 })
+
+app.get('/news',(req,res)=>{
+    res.render('articles/news/news.ejs')
+})
+
 app.use('/articles',articleRouter)
 app.use('/users',userRouter)
+app.use('/dashboard',dashboardRouter)
 
 app.listen(4040)

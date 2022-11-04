@@ -12,6 +12,7 @@
 
 <body>
     <div class="container">
+         <%- include('navigation_bar.ejs') %>
         <a href="/articles/new" class="btn btn-success">New Article</a>
         <% articles.forEach(article=>{ %>
             <div class="card mt-4">
