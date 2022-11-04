@@ -1,10 +1,17 @@
 const express=require('express')
 const bcrypt=require('bcrypt')
+const passport = require('passport')
 const user=require('../models/user')
 const User=require('../models/user')
 const { Router, response } = require('express')
 const article = require('../models/article')
+const initializePassport = require('../services/passport-config')
 const router=express.Router()
+
+initializePassport(
+    passport, email => User.find(user => user.email === email),
+    id => User.find(user => user.id === id)
+)
 
 
 router.get('/register',(req,res)=>{
@@ -25,6 +32,12 @@ router.post('/',async(req,res,next)=>{
     next()
 },saveUserAndRedirect())
 
+router.post('/login',checkNotAuthenticated, passport.authenticate('local',{
+    successRedirect: '/',
+    failureRedirect: '/login',
+    failureFlash: true
+}))
+
 function saveUserAndRedirect(){
     return async (req, res)=>{
             let user=req.user
@@ -43,9 +56,6 @@ function saveUserAndRedirect(){
         }
     }
 }
-router.post('/login',(req,res)=>{
-
-})
 //protecting our routes for when we are not logged in. We will use a middleware
 function checkAuthenticated(req,res,next){
     if (req.isAuthenticated()){
