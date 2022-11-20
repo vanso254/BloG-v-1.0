@@ -1,8 +1,11 @@
-const bcrypt=require('bcrypt')
+const bcrypt = require('bcrypt')
+const User=require('../models/user')
 const localStrategy = require('passport-local').Strategy
 
-function initialize(passport, getUserByEmail, getUserById){
+
+function initialize(passport,getUserByEmail,getUserById){
     const authenticateUser = async(email, password, done)=>{
+        //const user = await User.findOne({email: req.body.email}) 
         const user = getUserByEmail(email)
         if (user == null){
             return done(null, false, { message: 'No User with that email' })
@@ -30,5 +33,6 @@ function initialize(passport, getUserByEmail, getUserById){
         return done(null, getUserById(id))
     })
 }
-
+//const user = await User.find({email: req.body.email}) //which returned all users
+//await User.findOne({email: req.body.email})//from which i can use user.password in the //bcrypt compare method
 module.exports = initialize
