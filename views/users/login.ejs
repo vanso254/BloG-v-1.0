@@ -13,8 +13,10 @@
 <body>
     <div class="container">
         <% if (errorMessage) { %>
-            <div class="user-message user-message--error">
-                <%= errorMessage %>
+            <div class="error">
+                <p class="text-warning">
+                    <%= errorMessage %>
+                </p>
             </div>
             <% } %>
                 <h1 class="mb-4">Login</h1>
